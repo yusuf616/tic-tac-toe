@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react"
-
+import { useEffect, useRef, useState } from "react"
+import {FaOm, FaTimes} from'react-icons/fa'
+import {BsFillRecordFill} from 'react-icons/bs'
 export const TicTacToe=()=>{
 
     const[boxes,setBoxes]=useState([]);
     const [player,setPlayer]=useState(1);
-
+    const [playingNumber,setPlayingNum]=useState(0);
     const createBoxes=()=>{
         const tempBox=[];
         for(let i=0;i<3; i++){
@@ -14,7 +15,7 @@ export const TicTacToe=()=>{
             }
         }
         setBoxes(tempBox);
-        console.log(tempBox);
+       
     }
 
     const teckPosition=(i,j)=>{
@@ -22,12 +23,23 @@ export const TicTacToe=()=>{
         tempBoxes[i][j] = player;  //player is either 1 or -1
         setPlayer(player*-1);
         setBoxes([...tempBoxes]);
+        setPlayingNum(playingNumber+1);
+        
     }
-    console.log(player);
+
+    const reset=()=>{
+        setPlayingNum(0);
+        createBoxes();
+    }
+  
+    useEffect(()=>{
+        console.log(boxes);
+    },[boxes])
+
     useEffect(()=>{
         createBoxes();
     },[]);  
-
+    console.log(playingNumber);
     return(<div style={{position:'relative',width:'306px',height:'306px',margin:'auto'}}>
         {boxes.map(( box ,i)=><div key={i} style={{width:'100%',height:'100px',borderBottom:'2px solid #fff ',display:'flex',justifyContent:'space-between'}}>
             {
@@ -38,6 +50,7 @@ export const TicTacToe=()=>{
                 </Box>)
             }
         </div>)}
+        {playingNumber===9?<button onClick={reset}>Reset</button>:<></>}
     </div>)
 }
 
@@ -60,7 +73,7 @@ const Box=({
         }}
     >
         <div style={{ position:'absolute' , height:'100%',width:'100%',backgroundColor:value===0?'#fff':'#f66',opacity: hover?0.5:0 }}></div>
-        {value===1?<>X</>:<></>}
-        {value===-1?<>O</>:<></>}
+        {value===1?<><FaTimes size={50}/></>:<></>}
+        {value===-1?<><BsFillRecordFill size={50}/></>:<></>}
     </div>)
 }
