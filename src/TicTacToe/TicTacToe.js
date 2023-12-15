@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import {FaOm, FaTimes} from'react-icons/fa'
 import {BsFillRecordFill} from 'react-icons/bs'
+import { checkWiner } from "./checkWiner";
 export const TicTacToe=()=>{
 
     const[boxes,setBoxes]=useState([]);
@@ -33,13 +34,15 @@ export const TicTacToe=()=>{
     }
   
     useEffect(()=>{
-        console.log(boxes);
+        console.log(checkWiner({
+            boxes:boxes
+        }));
     },[boxes])
 
     useEffect(()=>{
         createBoxes();
     },[]);  
-    console.log(playingNumber);
+ 
     return(<div style={{position:'relative',width:'306px',height:'306px',margin:'auto'}}>
         {boxes.map(( box ,i)=><div key={i} style={{width:'100%',height:'100px',borderBottom:'2px solid #fff ',display:'flex',justifyContent:'space-between'}}>
             {
@@ -72,7 +75,7 @@ const Box=({
             alignItems:'center',
         }}
     >
-        <div style={{ position:'absolute' , height:'100%',width:'100%',backgroundColor:value===0?'#fff':'#f66',opacity: hover?0.5:0 }}></div>
+        <div style={{ position:'absolute' , height:'100%',width:'100%',backgroundColor:value===0?'#fff':'#f66',opacity: hover?0.5:0 ,transition:'0.5s'}}></div>
         {value===1?<><FaTimes size={50}/></>:<></>}
         {value===-1?<><BsFillRecordFill size={50}/></>:<></>}
     </div>)
